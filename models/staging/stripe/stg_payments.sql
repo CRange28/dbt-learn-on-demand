@@ -1,10 +1,9 @@
 select
-
-    ID as payment_id,
-    ORDERID as order_id,
-    PAYMENTMETHOD,
-    STATUS,
-    AMOUNT /100 as amount,
+    id as payment_id,
+    orderid as order_id,
+    paymentmethod,
+    status,
+    -- amount stored in cents, convert to dollars
+    {{ cents_to_dollars('amount') }} as amount,
     created as created_at
-
-from DBT_FUNDAMENTALS_CR.stripe.payment
+from {{ source('stripe', 'payment') }}
